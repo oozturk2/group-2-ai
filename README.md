@@ -1,2 +1,2 @@
-# Boilerplate
-Blazor Boilerplate
+# Hackathon repo 2024
+
