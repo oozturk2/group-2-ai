@@ -1,0 +1,120 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavManager
+@using KPMGCommonComponents.VerticalMenu
+@using Boilerplate.SessionState
+
+
+<PageTitle>Boilerplate</PageTitle>
+
+
+<div class="e-span">
+    <div class="parent">
+        <div class="left">
+            <a href="\">
+                <img src="/logos/kpmg/KPMG_blue_logo_NoCP_RGB_280.png" alt="KPMG logo" height="80"/>
+            </a>
+        </div>
+        <div class="right">
+            <SfDropDownButton IconCss="e-icons e-user" CssClass="e-custom e-caret-hide" IconPosition="SplitButtonIconPosition.Top" EnableRtl="false">
+                <DropDownButtonEvents ItemSelected="select"/>
+                <DropDownMenuItems>
+                    @if (!CascadingSessionState.SessionState.UserIsLoggedIn)
+                    {
+                        <DropDownMenuItem IconCss="e-icons e-user" Text="Login" Id="Login" />
+                    }
+                    else
+                    {
+                        @if (CascadingSessionState.SessionState.UserIsAdmin)
+                        {
+                            <DropDownMenuItem IconCss="e-icons e-user" Text="Profile" Id="Profile" />
+                            <DropDownMenuItem IconCss="e-icons e-protect-sheet" Text="Standard dashboard" Id="StandardLogin" />
+                            <DropDownMenuItem Separator=true />
+                            @if (CascadingSessionState.SessionState.UserIsLoggedIn)
+                            {
+                                <DropDownMenuItem Separator=true />
+                                <DropDownMenuItem IconCss=" e-icons e-circle-close" Text="Logout" Id="Logout" />
+                            }
+                        }
+                        else
+                        {
+                            <DropDownMenuItem IconCss="e-icons e-user" Text="Profile" Id="Profile" />
+                            <DropDownMenuItem IconCss="e-icons e-protect-sheet" Text="Admin dashboard" Id="AdminLogin" />
+                            <DropDownMenuItem Separator=true></DropDownMenuItem>
+                            @if (CascadingSessionState.SessionState.UserIsLoggedIn)
+                            {
+                                <DropDownMenuItem Separator=true />
+                                <DropDownMenuItem IconCss=" e-icons e-circle-close" Text="Logout" Id="Logout" />
+                            }
+                        }
+                    }
+                </DropDownMenuItems>
+            </SfDropDownButton>
+        </div>
+    </div>
+</div>
+
+
+<div class="page">
+    <div class="sidebar">
+
+        @if (CascadingSessionState.SessionState.UserIsAdmin)
+        {
+            <VerticalMenu NavigationItems="AdminNavNames"> </VerticalMenu>
+        }
+        else
+        {
+            <VerticalMenu NavigationItems="NavNames"></VerticalMenu>
+        }
+
+
+
+    </div>
+
+    <main>
+        <article class="content">
+            @Body
+        </article>
+    </main>
+</div>
+}
+
+
+@code {
+
+    [CascadingParameter]
+    CascadingSessionState CascadingSessionState { get; set; }
+
+    List<VerticalMenu.NavigationItem> NavNames = new List<VerticalMenu.NavigationItem> {
+        new VerticalMenu.NavigationItem() { Text="Layout", Route="/user/layout", Icon="ph:squares-four"},
+        new VerticalMenu.NavigationItem() { Text="State management", Route="/user/statemanagement", Icon="ph:clock"},
+        new VerticalMenu.NavigationItem() { Text="Autentication", Route="/user/authentication", Icon="ph:user-circle"},
+        new VerticalMenu.NavigationItem() { Text="Assets", Route="/user/assets", Icon="ph:house-line"},
+        new VerticalMenu.NavigationItem() { Text="TravelTracker", Route="/user/traveltracker", Icon="ph:address-book"},
+        new VerticalMenu.NavigationItem() { Text="Periods", Route="/user/periods", Icon="ph:clock"},
+        new VerticalMenu.NavigationItem() { Text="Amounts", Route="/user/amounts", Icon="ph:coins"},
+        new VerticalMenu.NavigationItem() { Text="Summary", Route="/user/summary", Icon="ph:equalizer"},
+        new VerticalMenu.NavigationItem() { Text="Communication", Route="/user/communications", Icon="ph:chats-circle"},
+        new VerticalMenu.NavigationItem() { Text="Reports", Route="/user/reports", Icon="ph:files"},
+        new VerticalMenu.NavigationItem() { Text="Review", Route="/user/review", Icon="ph:magnifying-glass"}
+    };
+
+    List<VerticalMenu.NavigationItem> AdminNavNames = new List<VerticalMenu.NavigationItem> {
+        new VerticalMenu.NavigationItem() { Text="User admin", Route="/admin/useradmin", Icon="ph:squares-four"}
+    };
+
+    private void select(MenuEventArgs args)
+    {
+        switch (args.Item.Id)
+        {
+            case "Login":
+                NavManager.NavigateTo("MicrosoftIdentity/Account/SignIn", true);
+                break;
+            case "Logout":
+                NavManager.NavigateTo("MicrosoftIdentity/Account/SignOut", true);
+                break;
+            case "Profile":
+                NavManager.NavigateTo("/profile/profile");
+                break;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+﻿@page "/user/periods"
+@inject IRepositoryManager RepositoryManager
+
+
+<PageTitle>Periods</PageTitle>
+
+<h1>Periods - @dbTestValue1</h1>
+
+@code {
+    private string dbTestValue1;
+    protected override async Task OnInitializedAsync()
+    {
+        var allObject = await RepositoryManager.ColRepo.GetAllAsync();
+        dbTestValue1 = allObject.FirstOrDefault().RecordId.ToString();
+    }
+}
+

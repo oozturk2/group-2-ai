@@ -1,0 +1,74 @@
+﻿@page "/user/layout"
+
+
+<PageTitle>Layout</PageTitle>
+
+
+
+<div class="container-fluid">
+    <h1 class="page-header">Layout</h1>
+    <div class="row m-auto">
+        <div class="col g-0 square-3 mb-4">
+            @*Content here*@
+            <p class="">
+                <strong>Spacer = 16px (Spacer er predefineret af Bootstrap til at være 16px).</strong> <br />
+                p-1 = spacer * 0.25 = 4px padding <br />
+                p-2 = spacer * 0.5 = 8px padding<br />
+                p-3 = spacer * 1 = 16px padding<br />
+                <br />
+                m-1 = spacer * 0.25 = 4px margin <br />
+                m-2 = spacer * 0.5 = 8px margin<br />
+                m-3 = spacer * 1 = 16px margin<br />
+                <br />
+                <br />
+                <a href="https://getbootstrap.com/docs/5.0/utilities/spacing/">Se dette link for de mulige padding / margin dimensioner.</a>
+                <br />
+                1 of 1 (12 col)<br />
+                denne block har p-3 = padding: 16px på alle dimensioner<br />
+                Og den har mb-4 = margin-bottom: 20px
+            </p>
+        </div>
+    </div>
+    <hr />
+    <div class="row m-auto">
+        <div class="col g-0 square-1">
+            1 of 2 (6 col )
+            @*Content here*@
+        </div>
+        <div class="col g-0 square-2">
+            2 of 2 ( 6 col)
+            @*Content here*@
+        </div>
+    </div>
+    <hr />
+    <div class="row m-auto">
+        <div class="col g-0 square-1">
+            1 of 3 ( 4 col)
+            @*Content here*@
+        </div>
+        <div class="col g-0 square-2">
+            2 of 3 ( 4 col)
+            @*Content here*@
+        </div>
+        <div class="col g-0 square-3">
+            3 of 3 ( 4 col)
+            @*Content here*@
+        </div>
+    </div>
+</div>
+
+@*This styling will be moved to CommonComponents. It is here for sake of development*@
+<style>
+    .square-1 {
+        background-color: #1E49E2;
+        color: white;
+    }
+
+    .square-2 {
+        background-color: #ACEAFF;
+    }
+
+    .square-3 {
+        background-color: #F0F4FF;
+    }
+</style>

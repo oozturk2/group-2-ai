@@ -1,0 +1,30 @@
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    max-width: 1667px;
+}
+@media (max-width: 641px) {
+    article {
+        margin: 9rem 2rem 0rem 20rem;
+    }
+}
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 253px;
+        top: 0;
+    }
+
+    article {
+        margin: 9rem 2rem 0rem 4rem !important;
+    }
+}

@@ -1,0 +1,2 @@
+# Boilerplate
+Blazor Boilerplate

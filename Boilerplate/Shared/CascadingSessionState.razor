@@ -1,0 +1,58 @@
+﻿@using Boilerplate.SessionState
+@inject  SessionStateManager SessionStateManager
+@implements IDisposable
+
+@if (_loaded)
+{
+    <CascadingValue Value="@this">
+        <CascadingAuthenticationState>
+            @ChildContent
+        </CascadingAuthenticationState>
+    </CascadingValue>
+}
+else
+{
+    <div>Loading...</div> // Her kan vi evt lavet et eller andet pænere
+}
+
+
+@functions {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public SessionState SessionState { get; set; }
+
+    internal SessionStateManager StateManager => SessionStateManager;
+
+    private bool _shouldRender;
+
+    private bool _loaded;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        SessionStateManager.OnChange += StateHasChanged;
+        SessionState = await SessionStateManager.GetSessionState();
+        _loaded = true;
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_shouldRender)
+        {
+            SessionState = await SessionStateManager.GetSessionState();
+            StateHasChanged();
+        }
+        _shouldRender = !_shouldRender;
+    }
+
+    public void Dispose()
+    {
+        SessionStateManager.OnChange -= StateHasChanged;
+    }
+
+
+
+}

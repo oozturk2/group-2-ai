@@ -1,0 +1,77 @@
+﻿@page "/profile/logout"
+
+<PageTitle>Logout</PageTitle>
+
+<h1>Logout</h1>
+
+<button type="button" class="btn btn-primary" @onclick="ToggleModal">Launch demo modal</button>
+<div class="modal-backdrop fade @(_showModal ? "show" : "") @(_showModal ? "modal-backdrop-static" : "")" style="display: @(_showModal ? "block" : "none");"></div>
+WIP
+<div class="modal fade @(_showModal ? "show" : "")" style="display: @(_showModal ? "block" : "none");" tabindex="-1" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="@(!_showModal)">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 p-3">
+            <div class="modal-header p-0">
+                <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Hide"></button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to logout?</h4>
+            </div>
+            <div class="modal-footer justify-content-start">
+                <SfButton CssClass="e-primary" @onclick="SaveChanges"
+                          IconPosition="IconPosition.Right">
+                    @SaveButtonText
+                </SfButton>
+                <SfButton CssClass="e-secondary" data-bs-dismiss="modal" @onclick="Hide"
+                          IconPosition="IconPosition.Right">
+                    @CloseButtonText
+                </SfButton>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; } = "";
+
+    [Parameter]
+    public string CloseButtonText { get; set; } = "Cancel";
+
+    [Parameter]
+    public string SaveButtonText { get; set; } = "Yes, log me out";
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool _showModal = false;
+
+    private void ToggleModal()
+    {
+        _showModal = !_showModal;
+    }
+
+    private void Hide()
+    {
+        _showModal = false;
+    }
+
+    private void SaveChanges()
+    {
+        // Save changes here
+        _showModal = false;
+    }
+}
+
+    <style>
+    .modal-header {
+        border-bottom: none;
+    }
+    .modal-footer {
+        border-top: none;
+    }
+    .modal-content {
+        border-radius: 20px;
+    }
+    </style>
