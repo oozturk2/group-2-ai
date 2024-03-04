@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vue Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="message in messages" :key="message.id">
+                {{ message.text }}
+            </li>
+        </ul>
+        <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message here">
+    </div>
+
+    <script>
+        var socket = io('http://127.0.0.1:5000');
+
+        new Vue({
+            el: '#app',
+            data: {
+                messages: [],
+                newMessage: ''
+            },
+            mounted() {
+                socket.on('message', (msg) => {
+                    this.messages.push({ id: Date.now(), text: msg });
+                });
+            },
+            methods: {
+                sendMessage() {
+                    if (this.newMessage.trim()) {
+                        // Send message to Flask backend
+                        axios.post('http://127.0.0.1:5000/message', { message: this.newMessage.trim() })
+                            .then(response => {
+                                console.log(response.data);
+                            })
+                            .catch(error => {
+                                console.error('Error sending message:', error);
+                            });
+
+                        // Send message to WebSocket server
+                        socket.send(this.newMessage.trim());
+                        this.newMessage = '';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
