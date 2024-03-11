@@ -8,7 +8,7 @@ class sql_handler:
         self.cursor = self.con.cursor()
    
     def read_table_from_sql(self, table_name):
-        df = pd.read_sql(f"SELECT * FROM dbo.{table_name};", self.con)
+        df = pd.read_sql(f"SELECT * FROM {table_name};", self.con)
         self._commit()
         return df
     
@@ -61,7 +61,5 @@ def db_create(table_name, col_list_with_types):
 def db_execute_sql(sql_script):
     db_obj = sql_handler()
     db_obj.cursor.execute(sql_script)
-    rows = []
-    for row in db_obj.cursor.fetchall():
-        rows.append(row)
+    rows = db_obj.cursor.fetchall()
     return rows

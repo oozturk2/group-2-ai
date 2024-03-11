@@ -2,18 +2,14 @@ from openai import AzureOpenAI
 import pandas as pd
 
 def nlp_to_sql_translator(message:str):
-    """
-    takes str as argument
-    """
+    #Takes str as argument
     client = AzureOpenAI(
         azure_endpoint = 'https://hackathon032024openai-1.openai.azure.com/openai/deployments/team2-model-deployment/chat/completions?api-version=2024-02-15-preview',
         api_key="78ceeb8a13124d1cb6ee493051fefd94",
         api_version="2024-02-15-preview"
     )
     
-    message_text = [{"role":"system","content": message[1]},
-        {"role":"user","content":"Create a select statement for the given chat request:" + message[0]}]
- 
+    message_text = [{"role": "system", "content": message}]
  
     completion = client.chat.completions.create(
         model="team2-model-deployment", # model = "deployment_name"
@@ -26,10 +22,9 @@ def nlp_to_sql_translator(message:str):
         # stop=None
     )
  
-    response_str = completion.choices[0].message.content
-    res = response_str.split('```')[1::2]
+    response = completion.choices[0].message.content
     
-    return res
+    return response
  
 def create_metadata(xlsx_name):
     df = pd.read_excel(xlsx_name)
