@@ -1,5 +1,5 @@
 import sqlite3
-import numpy as pd
+import numpy as np
 import pandas as pd
 
 class sql_handler:
